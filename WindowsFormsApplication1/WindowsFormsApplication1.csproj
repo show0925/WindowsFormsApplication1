@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9B9E1C17-D596-4157-A1A2-34ACD1665424}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WindowsFormsApplication1</RootNamespace>
+    <AssemblyName>WindowsFormsApplication1</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge, Version=2.2.4.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Program Files (x86)\AForge.NET\Framework\Release\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.4.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.4.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Neuro, Version=2.2.4.0, Culture=neutral, PublicKeyToken=2094f4ea39731d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Neuro.dll</HintPath>
+    </Reference>
+    <Reference Include="GXService.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\GXService.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardNetwork.cs" />
+    <Compile Include="CardNetwork2X2.cs" />
+    <Compile Include="CardNetwork3X4.cs" />
+    <Compile Include="CardNetworkService.cs" />
+    <Compile Include="CardRecognizeService.cs" />
+    <Compile Include="CardTemplateMatcher.cs" />
+    <Compile Include="CardTypeParseService.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ICardModel.cs" />
+    <Compile Include="ICardRecognizer.cs" />
+    <Compile Include="IRecognizer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Template\CardColorTemplate.bmp" />
+    <Content Include="Template\CardNumTemplate.bmp" />
+    <Content Include="Template\大小\10\r112.bmp" />
+    <Content Include="Template\大小\10\r138.bmp" />
+    <Content Include="Template\大小\10\r139.bmp" />
+    <Content Include="Template\大小\10\r15.bmp" />
+    <Content Include="Template\大小\10\r59.bmp" />
+    <Content Include="Template\大小\10\r66.bmp" />
+    <Content Include="Template\大小\10\r67.bmp" />
+    <Content Include="Template\大小\10\r82.bmp" />
+    <Content Include="Template\大小\10\r98.bmp" />
+    <Content Include="Template\大小\10\r99.bmp" />
+    <Content Include="Template\大小\11\r109.bmp" />
+    <Content Include="Template\大小\11\r110.bmp" />
+    <Content Include="Template\大小\11\r123.bmp" />
+    <Content Include="Template\大小\11\r124.bmp" />
+    <Content Include="Template\大小\11\r13.bmp" />
+    <Content Include="Template\大小\11\r137.bmp" />
+    <Content Include="Template\大小\11\r14.bmp" />
+    <Content Include="Template\大小\11\r160.bmp" />
+    <Content Include="Template\大小\11\r174.bmp" />
+    <Content Include="Template\大小\11\r25.bmp" />
+    <Content Include="Template\大小\11\r76.bmp" />
+    <Content Include="Template\大小\11\r81.bmp" />
+    <Content Include="Template\大小\11\r92.bmp" />
+    <Content Include="Template\大小\12\r122.bmp" />
+    <Content Include="Template\大小\12\r136.bmp" />
+    <Content Include="Template\大小\12\r159.bmp" />
+    <Content Include="Template\大小\12\r172.bmp" />
+    <Content Include="Template\大小\12\r173.bmp" />
+    <Content Include="Template\大小\12\r2.bmp" />
+    <Content Include="Template\大小\12\r34.bmp" />
+    <Content Include="Template\大小\12\r45.bmp" />
+    <Content Include="Template\大小\12\r46.bmp" />
+    <Content Include="Template\大小\12\r58.bmp" />
+    <Content Include="Template\大小\12\r63.bmp" />
+    <Content Include="Template\大小\12\r64.bmp" />
+    <Content Include="Template\大小\12\r65.bmp" />
+    <Content Include="Template\大小\12\r79.bmp" />
+    <Content Include="Template\大小\12\r80.bmp" />
+    <Content Include="Template\大小\12\r96.bmp" />
+    <Content Include="Template\大小\13\r1.bmp" />
+    <Content Include="Template\大小\13\r108.bmp" />
+    <Content Include="Template\大小\13\r135.bmp" />
+    <Content Include="Template\大小\13\r146.bmp" />
+    <Content Include="Template\大小\13\r171.bmp" />
+    <Content Include="Template\大小\13\r75.bmp" />
+    <Content Include="Template\大小\13\r78.bmp" />
+    <Content Include="Template\大小\13\r91.bmp" />
+    <Content Include="Template\大小\13\r95.bmp" />
+    <Content Include="Template\大小\1\r0.bmp" />
+    <Content Include="Template\大小\1\r107.bmp" />
+    <Content Include="Template\大小\1\r12.bmp" />
+    <Content Include="Template\大小\1\r120.bmp" />
+    <Content Include="Template\大小\1\r121.bmp" />
+    <Content Include="Template\大小\1\r133.bmp" />
+    <Content Include="Template\大小\1\r134.bmp" />
+    <Content Include="Template\大小\1\r145.bmp" />
+    <Content Include="Template\大小\1\r158.bmp" />
+    <Content Include="Template\大小\1\r32.bmp" />
+    <Content Include="Template\大小\1\r33.bmp" />
+    <Content Include="Template\大小\2\r11.bmp" />
+    <Content Include="Template\大小\2\r155.bmp" />
+    <Content Include="Template\大小\2\r156.bmp" />
+    <Content Include="Template\大小\2\r157.bmp" />
+    <Content Include="Template\大小\2\r170.bmp" />
+    <Content Include="Template\大小\2\r182.bmp" />
+    <Content Include="Template\大小\2\r183.bmp" />
+    <Content Include="Template\大小\2\r23.bmp" />
+    <Content Include="Template\大小\2\r24.bmp" />
+    <Content Include="Template\大小\2\r31.bmp" />
+    <Content Include="Template\大小\2\r44.bmp" />
+    <Content Include="Template\大小\2\r57.bmp" />
+    <Content Include="Template\大小\2\r74.bmp" />
+    <Content Include="Template\大小\2\r90.bmp" />
+    <Content Include="Template\大小\3\r10.bmp" />
+    <Content Include="Template\大小\3\r105.bmp" />
+    <Content Include="Template\大小\3\r106.bmp" />
+    <Content Include="Template\大小\3\r119.bmp" />
+    <Content Include="Template\大小\3\r153.bmp" />
+    <Content Include="Template\大小\3\r154.bmp" />
+    <Content Include="Template\大小\3\r181.bmp" />
+    <Content Include="Template\大小\3\r21.bmp" />
+    <Content Include="Template\大小\3\r22.bmp" />
+    <Content Include="Template\大小\3\r30.bmp" />
+    <Content Include="Template\大小\3\r42.bmp" />
+    <Content Include="Template\大小\3\r43.bmp" />
+    <Content Include="Template\大小\3\r55.bmp" />
+    <Content Include="Template\大小\3\r56.bmp" />
+    <Content Include="Template\大小\3\r72.bmp" />
+    <Content Include="Template\大小\3\r73.bmp" />
+    <Content Include="Template\大小\3\r9.bmp" />
+    <Content Include="Template\大小\4\r104.bmp" />
+    <Content Include="Template\大小\4\r131.bmp" />
+    <Content Include="Template\大小\4\r132.bmp" />
+    <Content Include="Template\大小\4\r143.bmp" />
+    <Content Include="Template\大小\4\r144.bmp" />
+    <Content Include="Template\大小\4\r168.bmp" />
+    <Content Include="Template\大小\4\r169.bmp" />
+    <Content Include="Template\大小\4\r179.bmp" />
+    <Content Include="Template\大小\4\r180.bmp" />
+    <Content Include="Template\大小\4\r19.bmp" />
+    <Content Include="Template\大小\4\r20.bmp" />
+    <Content Include="Template\大小\4\r29.bmp" />
+    <Content Include="Template\大小\4\r40.bmp" />
+    <Content Include="Template\大小\4\r41.bmp" />
+    <Content Include="Template\大小\4\r54.bmp" />
+    <Content Include="Template\大小\4\r70.bmp" />
+    <Content Include="Template\大小\4\r71.bmp" />
+    <Content Include="Template\大小\4\r8.bmp" />
+    <Content Include="Template\大小\4\r89.bmp" />
+    <Content Include="Template\大小\5\r103.bmp" />
+    <Content Include="Template\大小\5\r18.bmp" />
+    <Content Include="Template\大小\5\r38.bmp" />
+    <Content Include="Template\大小\5\r39.bmp" />
+    <Content Include="Template\大小\5\r53.bmp" />
+    <Content Include="Template\大小\5\r62.bmp" />
+    <Content Include="Template\大小\5\r88.bmp" />
+    <Content Include="Template\大小\6\r116.bmp" />
+    <Content Include="Template\大小\6\r117.bmp" />
+    <Content Include="Template\大小\6\r118.bmp" />
+    <Content Include="Template\大小\6\r129.bmp" />
+    <Content Include="Template\大小\6\r130.bmp" />
+    <Content Include="Template\大小\6\r150.bmp" />
+    <Content Include="Template\大小\6\r151.bmp" />
+    <Content Include="Template\大小\6\r152.bmp" />
+    <Content Include="Template\大小\6\r167.bmp" />
+    <Content Include="Template\大小\6\r178.bmp" />
+    <Content Include="Template\大小\6\r28.bmp" />
+    <Content Include="Template\大小\6\r37.bmp" />
+    <Content Include="Template\大小\6\r51.bmp" />
+    <Content Include="Template\大小\6\r52.bmp" />
+    <Content Include="Template\大小\6\r6.bmp" />
+    <Content Include="Template\大小\6\r7.bmp" />
+    <Content Include="Template\大小\6\r87.bmp" />
+    <Content Include="Template\大小\7\r102.bmp" />
+    <Content Include="Template\大小\7\r114.bmp" />
+    <Content Include="Template\大小\7\r115.bmp" />
+    <Content Include="Template\大小\7\r127.bmp" />
+    <Content Include="Template\大小\7\r128.bmp" />
+    <Content Include="Template\大小\7\r165.bmp" />
+    <Content Include="Template\大小\7\r166.bmp" />
+    <Content Include="Template\大小\7\r27.bmp" />
+    <Content Include="Template\大小\7\r4.bmp" />
+    <Content Include="Template\大小\7\r49.bmp" />
+    <Content Include="Template\大小\7\r5.bmp" />
+    <Content Include="Template\大小\7\r50.bmp" />
+    <Content Include="Template\大小\7\r61.bmp" />
+    <Content Include="Template\大小\7\r69.bmp" />
+    <Content Include="Template\大小\7\r77.bmp" />
+    <Content Include="Template\大小\7\r86.bmp" />
+    <Content Include="Template\大小\7\r93.bmp" />
+    <Content Include="Template\大小\7\r94.bmp" />
+    <Content Include="Template\大小\8\r100.bmp" />
+    <Content Include="Template\大小\8\r101.bmp" />
+    <Content Include="Template\大小\8\r141.bmp" />
+    <Content Include="Template\大小\8\r142.bmp" />
+    <Content Include="Template\大小\8\r148.bmp" />
+    <Content Include="Template\大小\8\r149.bmp" />
+    <Content Include="Template\大小\8\r16.bmp" />
+    <Content Include="Template\大小\8\r162.bmp" />
+    <Content Include="Template\大小\8\r163.bmp" />
+    <Content Include="Template\大小\8\r164.bmp" />
+    <Content Include="Template\大小\8\r17.bmp" />
+    <Content Include="Template\大小\8\r177.bmp" />
+    <Content Include="Template\大小\8\r60.bmp" />
+    <Content Include="Template\大小\8\r68.bmp" />
+    <Content Include="Template\大小\8\r85.bmp" />
+    <Content Include="Template\大小\9\r113.bmp" />
+    <Content Include="Template\大小\9\r126.bmp" />
+    <Content Include="Template\大小\9\r140.bmp" />
+    <Content Include="Template\大小\9\r147.bmp" />
+    <Content Include="Template\大小\9\r161.bmp" />
+    <Content Include="Template\大小\9\r176.bmp" />
+    <Content Include="Template\大小\9\r26.bmp" />
+    <Content Include="Template\大小\9\r3.bmp" />
+    <Content Include="Template\大小\9\r35.bmp" />
+    <Content Include="Template\大小\9\r36.bmp" />
+    <Content Include="Template\大小\9\r47.bmp" />
+    <Content Include="Template\大小\9\r48.bmp" />
+    <Content Include="Template\大小\9\r83.bmp" />
+    <Content Include="Template\大小\9\r84.bmp" />
+    <Content Include="Template\花色\0\0.bmp" />
+    <Content Include="Template\花色\0\14.bmp" />
+    <Content Include="Template\花色\0\15.bmp" />
+    <Content Include="Template\花色\0\3.bmp" />
+    <Content Include="Template\花色\0\5.bmp" />
+    <Content Include="Template\花色\1\10.bmp" />
+    <Content Include="Template\花色\1\13.bmp" />
+    <Content Include="Template\花色\1\2.bmp" />
+    <Content Include="Template\花色\1\8.bmp" />
+    <Content Include="Template\花色\2\1.bmp" />
+    <Content Include="Template\花色\2\12.bmp" />
+    <Content Include="Template\花色\2\16.bmp" />
+    <Content Include="Template\花色\2\6.bmp" />
+    <Content Include="Template\花色\2\9.bmp" />
+    <Content Include="Template\花色\3\11.bmp" />
+    <Content Include="Template\花色\3\4.bmp" />
+    <Content Include="Template\花色\3\7.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
