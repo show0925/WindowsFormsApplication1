@@ -43,8 +43,8 @@ namespace GXService.CardRecognize.Service
                 new Threshold(200)
             };
 
-        //过滤噪音，最小宽度2、最小高度12、最大宽度14、最大高度16
-        private readonly BlobsFiltering _blobsFiltering = new BlobsFiltering(2, 12, 14, 16);
+        //过滤噪音，最小宽度1、最小高度12、最大宽度14、最大高度16
+        private readonly BlobsFiltering _blobsFiltering = new BlobsFiltering(1, 12, 14, 16);
 
         //块记录器
         private readonly BlobCounter _blobCounter = new BlobCounter();
@@ -63,7 +63,6 @@ namespace GXService.CardRecognize.Service
 
         //扑克牌神经网络服务对象
         private readonly CardNetworkService _cardNetworkService = new CardNetworkService();
-
         private int index = 0;
         public void Start()
         {
@@ -109,22 +108,23 @@ namespace GXService.CardRecognize.Service
                 {
                     Result = new List<Card>()
                 };
+                src.Save(AppDomain.CurrentDomain.BaseDirectory + string.Format("Color\\{0}.bmp", index++));
 
                 //过滤蓝色、灰度化、二值化
                 var toRec = _seq.Apply(src);
-                toRec.Save(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + string.Format("\\Color\\{0}.bmp", index++));
+                toRec.Save(AppDomain.CurrentDomain.BaseDirectory + string.Format("Color\\{0}.bmp", index++));
 
                 //黑色与白色互换
                 ExchangeIndexColor(toRec, 255, 0);
-                toRec.Save(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + string.Format("\\Color\\{0}.bmp", index++));
+                toRec.Save(AppDomain.CurrentDomain.BaseDirectory + string.Format("Color\\{0}.bmp", index++));
 
                 //去掉干扰线
                 RemoveInterferenceLines(toRec, 0);
-                toRec.Save(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + string.Format("\\Color\\{0}.bmp", index++));
+                toRec.Save(AppDomain.CurrentDomain.BaseDirectory + string.Format("Color\\{0}.bmp", index++));
 
                 //过滤噪音
                 toRec = _blobsFiltering.Apply(toRec);
-                toRec.Save(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + string.Format("\\Color\\{0}.bmp", index++));
+                toRec.Save(AppDomain.CurrentDomain.BaseDirectory + string.Format("Color\\{0}.bmp", index++));
 
                 //获取所有的块
                 _blobCounter.ProcessImage(toRec);
@@ -139,10 +139,25 @@ namespace GXService.CardRecognize.Service
                 rects.ForEach(rectNum =>
                 {
                     //识别牌数字
-                    var cardNum = _cardNetworkService.ComputeNum(_resizeNumFilter.Apply(toRec.Clone(rectNum, toRec.PixelFormat)));
+                    var bmpNum = _resizeNumFilter.Apply(toRec.Clone(rectNum, toRec.PixelFormat));
+                    var cardNum = _cardNetworkService.ComputeNum(bmpNum);
+                    if (cardNum == CardNum.未知)
+                    {
+                        var dir = AppDomain.CurrentDomain.BaseDirectory + @"未知\数字\";
+                        Directory.CreateDirectory(dir);
+                        bmpNum.Save(dir + string.Format("{0}.bmp", index++));
+                    }
 
                     //识别牌花色(花色图片需要重新处理，所以需要用原图src)
-                    var cardColor = _cardNetworkService.ComputeColor(_resizeColorFilter.Apply(GetColorBitmap(src, rectNum)));
+                    var bmpColor = GetColorBitmap(src, rectNum);
+                    //bmpColor.Save(".\\Color\\" + string.Format("{0}.bmp", index++));
+                    var cardColor = _cardNetworkService.ComputeColor(bmpColor);
+                    if (cardColor == CardColor.未知)
+                    {
+                        var dir = AppDomain.CurrentDomain.BaseDirectory + @"未知\花色\";
+                        Directory.CreateDirectory(dir);
+                        bmpColor.Save(dir + string.Format("{0}.bmp", index++));
+                    }
 
                     //将识别出来的牌信息添加到结果集中
                     result.Result.Add(new Card
@@ -200,12 +215,29 @@ namespace GXService.CardRecognize.Service
         /// <returns></returns>
         private List<Rectangle> RemoveOffsetBlobs(List<Rectangle> rects)
         {
-            //以最左边和最右边的区域的平均高度作为整个的平均高度
-            rects.Sort(new RectangleLeftComparer());
-            var avTop = rects.Average(r => r.Top);
-            avTop = (rects.First().Top + rects.Last().Top)/2;
+            var topDirectory = new Dictionary<int/*随机的一个top高度*/, List<int>/*偏移小于3的所有top高度*/>();
+            rects.ForEach(rt =>
+            {
+                foreach (var key in topDirectory.Keys)
+                {
+                    if (Math.Abs(rt.Top - key) < 3)
+                    {
+                        topDirectory[key].Add(rt.Top);
+                        return;
+                    }
+                }
 
-            //throw new Exception(string.Format("{0},{1}", avTop, (rects.First().Top + rects.Last().Top) / 2));
+                topDirectory.Add(rt.Top, new List<int> { rt.Top });
+            });
+
+            //找出值最多的集合，取此集合的平均高度为整体的平均高度
+            var avKey = topDirectory.Keys.First();
+            foreach (var dic in topDirectory.Where(dic => dic.Value.Count > topDirectory[avKey].Count))
+            {
+                avKey = dic.Key;
+            }
+
+            var avTop = topDirectory[avKey].Average();
 
             rects = rects.Where(r => Math.Abs(avTop - r.Top) < 3).ToList();
             rects.Sort(new RectangleLeftComparer());
@@ -303,7 +335,7 @@ namespace GXService.CardRecognize.Service
 
             //需要返回24位的图片，所以需要拷贝原图
             colorRect = new Rectangle(colorRect.X + _extractBiggestBlob.BlobPosition.X, colorRect.Y + _extractBiggestBlob.BlobPosition.Y, maxBlobBmp.Width, maxBlobBmp.Height);
-            return src.Clone(colorRect, PixelFormat.Format24bppRgb);
+            return _resizeColorFilter.Apply(src.Clone(colorRect, PixelFormat.Format24bppRgb));
         }
         
         /// <summary>

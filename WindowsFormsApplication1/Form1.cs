@@ -20,7 +20,7 @@ namespace GXService.CardRecognize.Client
         private readonly Point _tailCenterPoint = new Point(440, 460);
 
         //十三张手牌区域
-        private readonly Rectangle _rectSsz = new Rectangle(300, 540, 450, 50);
+        private readonly Rectangle _rectSsz = new Rectangle(300, 540, 450, 60);
 
         //其他友方牌型分析结果
         private readonly List<CardTypeResult> _friendCardTypeResults = new List<CardTypeResult>();
@@ -40,9 +40,12 @@ namespace GXService.CardRecognize.Client
             {
                 //查找游戏牌局窗口并抓取图片进行识别分析
                 var wndGame = "thirtn".FindWindow();
-                //var bmp = wndGame.Capture();
+                var bmpGame = wndGame.Capture();
+                bmpGame.Save("game.bmp");
 
-                var bmp = Image.FromFile(@"0.bmp") as Bitmap;
+                return;
+
+                var bmp = Image.FromFile(@"7.bmp") as Bitmap;
                 if (null == bmp)
                 {
                     return;
